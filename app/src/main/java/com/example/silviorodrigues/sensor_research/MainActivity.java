@@ -14,9 +14,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private Sensor mSensorLight;
     private Sensor mSensorAmbientTemperature;
+    private Sensor mSensorRelativeHumidity;
 
     private TextView mTextSensorLight;
     private TextView mTextSensorAmbientTemperature;
+    private TextView mTextSensorRelativeHumidity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +27,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         mTextSensorLight = (TextView) findViewById(R.id.label_light);
         mTextSensorAmbientTemperature = (TextView) findViewById(R.id.label_ambient_temperature);
+        mTextSensorRelativeHumidity = (TextView) findViewById(R.id.label_relative_humidity);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         mSensorAmbientTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        mSensorRelativeHumidity = mSensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
 
         String sensor_error = getResources().getString(R.string.error_no_sensor);
         if (mSensorLight == null) { mTextSensorLight.setText(sensor_error); }
@@ -44,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (mSensorAmbientTemperature != null) {
             mSensorManager.registerListener(this, mSensorAmbientTemperature, SensorManager.SENSOR_DELAY_FASTEST);
+        }
+
+        if (mSensorRelativeHumidity != null) {
+            mSensorManager.registerListener(this, mSensorRelativeHumidity, SensorManager.SENSOR_DELAY_FASTEST);
         }
     }
 
@@ -67,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 break;
             case Sensor.TYPE_AMBIENT_TEMPERATURE:
                 mTextSensorAmbientTemperature.setText(getResources().getString(R.string.label_ambient_temperature, currentValue));
+                break;
+            case Sensor.TYPE_RELATIVE_HUMIDITY:
+                mTextSensorRelativeHumidity.setText(getResources().getString(R.string.label_relative_humidity, currentValue));
                 break;
             default:
         }
