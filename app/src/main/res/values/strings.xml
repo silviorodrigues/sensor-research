@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">sensor-research</string>
-    <string name="label_light">Luz ambiente: %1$.2f</string>
+    <string name="label_light">Luz ambiente: %1$.2f lx</string>
+    <string name="label_ambient_temperature">Temperatura ambiente: %1$d °C</string>
     <string name="error_no_sensor">Sensor não existe</string>
 </resources>

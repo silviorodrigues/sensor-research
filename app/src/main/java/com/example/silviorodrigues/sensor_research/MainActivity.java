@@ -13,8 +13,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SensorManager mSensorManager;
 
     private Sensor mSensorLight;
+    private Sensor mSensorAmbientTemperature;
 
     private TextView mTextSensorLight;
+    private TextView mTextSensorAmbientTemperature;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +24,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         setContentView(R.layout.activity_main);
 
         mTextSensorLight = (TextView) findViewById(R.id.label_light);
+        mTextSensorAmbientTemperature = (TextView) findViewById(R.id.label_ambient_temperature);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         mSensorLight = mSensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        mSensorAmbientTemperature = mSensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
 
         String sensor_error = getResources().getString(R.string.error_no_sensor);
         if (mSensorLight == null) { mTextSensorLight.setText(sensor_error); }
@@ -36,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (mSensorLight != null) {
             mSensorManager.registerListener(this, mSensorLight, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+
+        if (mSensorAmbientTemperature != null) {
+            mSensorManager.registerListener(this, mSensorAmbientTemperature, SensorManager.SENSOR_DELAY_FASTEST);
         }
     }
 
@@ -56,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         switch (sensorType) {
             case Sensor.TYPE_LIGHT:
                 mTextSensorLight.setText(getResources().getString(R.string.label_light, currentValue));
+                break;
+            case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                mTextSensorAmbientTemperature.setText(getResources().getString(R.string.label_ambient_temperature, currentValue));
                 break;
             default:
         }
